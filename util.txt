@@ -3,6 +3,7 @@ php artisan code:models
 php artisan config:clear limpa o cache
 php artisan make:controller CompanyController --resource
 TODO 15:40
+php artisan serve --host=192.168.2.102
 
 ***********************************USER FEITO VIA CMD**********************************************
 <?php
