@@ -24,25 +24,31 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (! $token = Auth::guard('api')->attempt($credentials)) {
+                error_log('deu erro');
                return response()->json(['error' => 'Unauthorized'], 401);
         }
-
+        error_log('logou');
         return $this->respondWithToken($token);
     }
 
     public function register(Request $request) {
+        error_log('Inicio do metodo de registros');
         $user = User::where('username', $request->username)->first();
-
+        error_log('Primeira parte dos registros ok');
         if(!$user){
             $user = new User();
             $user->username = $request->username;
             $user->password = bcrypt($request->password);
             $user->activated = 1;
+            //$user->fullname = $request->fullname;
+            $user->fullname = "Nome de teste";
+            $user->image = "";
             $user->save();
-
+            error_log('CHegou aqui no registros');
             return response()->json(['message' => 'Usuario criado com sucesso.', 'user' => $user]);
 
         }else{
+            error_log('Deu erro no registro');
             return response()->json(['message' => 'ERROR: Usuario ja cadastrado.'], 401);
         }
     }

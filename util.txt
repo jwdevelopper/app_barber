@@ -2,6 +2,7 @@ php artisan serve
 php artisan code:models
 php artisan config:clear limpa o cache
 php artisan make:controller CompanyController --resource
+php artisan route:list
 TODO 15:40
 
 ***********************************USER FEITO VIA CMD**********************************************

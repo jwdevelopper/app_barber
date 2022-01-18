@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +20,11 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $companies = Company::all();
+        if($companies){
+            return response()->json($companies);
+        }
+        return response()->json(['error' => 'Response notfound'], 401);
     }
 
     /**
@@ -34,7 +45,20 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = new Company();
+        $company->name = $request->name;
+    	$company->address = $request->address;
+    	$company->latitude = $request->latitude;
+    	$company->longitude = $request->longitude;
+    	$company->phone = $request->phone;
+    	$company->social_link = $request->social_link;
+    	$company->image = $request->image;
+        $company->save();
+
+        if($company){
+            return response()->json($company);
+        }
+        return response()->json(['error' => 'Resource not storage'], 401);
     }
 
     /**
@@ -45,7 +69,11 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        //
+        $company = Company::find($id);
+        if($company){
+            return response()->json($company);
+        }
+        return response()->json(['error' => 'Responce notfound'], 401);
     }
 
     /**
@@ -56,7 +84,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -68,7 +96,20 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $company = Company::find($id);
+        $company->name = $request->name;
+    	$company->address = $request->address;
+    	$company->latitude = $request->latitude;
+    	$company->longitude = $request->longitude;
+    	$company->phone = $request->phone;
+    	$company->social_link = $request->social_link;
+    	$company->image = $request->image;
+        $company->save();
+
+        if($company){
+            return response()->json($company);
+        }
+        return response()->json(['error' => 'Resource not update'], 401);
     }
 
     /**
@@ -79,6 +120,11 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $company = Company::find($id);
+        if($company){
+            $company->delete();
+            return response()->json($company);
+        }
+        return response()->json(['error' => 'Resource not delete'], 401);
     }
 }

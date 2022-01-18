@@ -26,10 +26,12 @@ class User extends Authenticatable implements JWTSubject
 
     use Notifiable;
 
+
 	protected $table = 'users';
 	public $timestamps = false;
 
 	protected $casts = [
+		'image' => 'boolean',
 		'activated' => 'bool'
 	];
 
@@ -38,18 +40,31 @@ class User extends Authenticatable implements JWTSubject
 	];
 
 	protected $fillable = [
+		'fullname',
 		'username',
 		'password',
+		'image',
 		'activated'
 	];
 
+	public function employees()
+	{
+		return $this->hasMany(Employee::class);
+	}
 
-    public function getJWTIdentifier()
+	public function schedules()
+	{
+		return $this->hasMany(Schedule::class);
+	}
+
+	// JWT
+
+	public function getJWTIdentifier()
     {
         return $this->getKey();
-    }
+	}
 
-    public function getJWTCustomClaims()
+	public function getJWTCustomClaims()
     {
         return [];
     }
